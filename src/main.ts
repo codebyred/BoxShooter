@@ -1,7 +1,7 @@
 import './style.css'
 
 import Player from './class/Player.class'
-import Renderer from './utility/render.utility'
+import Renderer from './utility/Renderer.utility'
 
 
 function createCanvasApp(){

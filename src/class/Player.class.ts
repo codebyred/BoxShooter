@@ -21,7 +21,7 @@ export default class Player{
 
         const checkDirection = ()=>{
             if(direction == "up"){
-                
+                console.log("up");
                 this.upPressed = true;        
             }
     
@@ -35,6 +35,7 @@ export default class Player{
             }
     
             if(direction == "right"){
+                console.log("right")
                 this.rightPressed = true;
                 
             }
