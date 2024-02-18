@@ -1,81 +1,149 @@
 import './style.css'
 
-import Player from './class/Player.class'
-import Renderer from './utility/Renderer.utility'
+import Player from './Assets/Player/class/Player.class'
+
+import Bullet from './Assets/Bullet/class/Bullet.class'
+import BulletController from './Assets/Bullet/controller/Bulltet.controller'
+
+import KeyboardController from './controller/keyboard.controller'
+
+import Renderer2D from './Helper/Renderer.helper'
+import Rectangle from './interface/Rectangle.interface'
+
 
 
 function createCanvasApp(){
 
   const canvas = document.querySelector<HTMLCanvasElement>("#canvas");
   
-  if(!canvas) return -1;
+  if(!canvas) return new Error("canvas not defined!");
 
   canvas.width = window.innerWidth/1.6;
   canvas.height = window.innerHeight/1.8;
 
   const ctx = canvas.getContext("2d");
 
-  if(!ctx) return -1;
+  if(!ctx) return new Error("context not defined!");
 
-  const renderer = new Renderer(ctx);
+  const renderer = new Renderer2D(ctx);
+
+  const gameBackground: Rectangle = {
+    x:0,
+    y:0,
+    width: canvas.width,
+    height: canvas.height
+  }
 
   const player = new Player(canvas.width/1.8, canvas.height/1.5);
 
+  const bulletController = new BulletController(5, 10, 4);
+
+  const keyboardController:KeyboardController = {
+    spacePressed: false,
+    upPressed: false,
+    downPressed: false,
+    leftPressed: false,
+    rightPressed: false
+  };
+
   function initEventListeners(){
 
-    document.addEventListener("keyup", (e: KeyboardEvent)=>{
+    document.addEventListener("keydown", (e: KeyboardEvent)=>{
 
-      if(e.code === "ArrowUp"){
-        
-        player.cancelMove("up");
+      function checkKeyCode(){
+
+        if(e.code === "ArrowUp"){
+          keyboardController.upPressed = true;
+        }
+  
+        if(e.code === "ArrowDown"){
+          keyboardController.downPressed = true;
+        }
+  
+        if(e.code === "ArrowLeft"){
+          keyboardController.leftPressed = true;
+        }
+  
+        if(e.code === "ArrowRight"){
+          keyboardController.rightPressed = true;
+        }
+  
+        if(e.code === "Space"){
+          keyboardController.spacePressed = true;
+        }
+
       }
 
-      if(e.code === "ArrowDown"){
-        player.cancelMove("down");
+      function keyAction(){
+
+        if(keyboardController.upPressed){
+          player.moveUp();
+        }
+
+        if(keyboardController.downPressed){
+          player.moveDown();
+        }
+
+        if(keyboardController.leftPressed){
+          player.moveLeft();
+        }
+
+        if(keyboardController.rightPressed){
+          player.moveRight();
+        }
+
+        if(keyboardController.spacePressed){
+          const bulletWidth = 5;
+          const bulletHeight = 15;
+          const bulletX = player.x + (player.width/2);
+          const bulletY = player.y - bulletWidth;
+          bulletController.shoot(new Bullet(bulletX, bulletY, bulletWidth, bulletHeight));
+        }
+
       }
 
-      if(e.code === "ArrowLeft"){
-        player.cancelMove("left");
-      }
-
-      if(e.code === "ArrowRight"){
-        player.cancelMove("right");
-      }
+      checkKeyCode();
+      keyAction();
 
     });
 
-    document.addEventListener("keydown", (e: KeyboardEvent)=>{
-      if(e.code === "ArrowUp"){
-        player.move("up");
+    document.addEventListener("keyup", (e: KeyboardEvent)=>{
+
+      if(e.code === "ArrowUp"){    
+        keyboardController.upPressed = false;
       }
 
       if(e.code === "ArrowDown"){
-        player.move("down");
+        keyboardController.downPressed = false;
       }
 
       if(e.code === "ArrowLeft"){
-        player.move("left");
+        keyboardController.leftPressed = false;
       }
 
       if(e.code === "ArrowRight"){
-        player.move("right");
+        keyboardController.rightPressed = false;
       }
+
+      if(e.code === "Space"){
+        keyboardController.spacePressed = false;
+      }
+
     });
 
   }
 
   function gameLoop(){
 
-    function draw(){
+    if(!canvas) return new Error("canvas not defined!");
 
-      if(!canvas) return -1;
+    renderer.drawRectangle(gameBackground, "#020617");
 
-      renderer.drawRectangle(0, 0, canvas.width, canvas.height, "#020617");
+    renderer.drawRectangle(player, "#7e5bef");
 
-      renderer.drawRectangle(player.x, player.y, player.width, player.height, "#7e5bef");
-    }
-
-    draw();
+    bulletController.bullets.forEach((bullet)=>{
+      renderer.drawRectangle(bullet, "red");
+    });
 
     requestAnimationFrame(gameLoop);
 

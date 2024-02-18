@@ -1,15 +1,17 @@
-export default class Renderer{
+import Rectangle from "../interface/Rectangle.interface";
+
+export default class Renderer2D{
 
     ctx:CanvasRenderingContext2D;
-    
+
     constructor(ctx:CanvasRenderingContext2D) {
         this.ctx = ctx;
     }
 
-    drawRectangle(x: number, y: number, w: number, h: number, color:string){
+    drawRectangle(rectangle: Rectangle, color:string){
 
         this.ctx.fillStyle = color;
-        this.ctx.fillRect(x, y, w, h);
+        this.ctx.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 
     }
 
