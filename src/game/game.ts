@@ -1,29 +1,12 @@
-import './style.css'
+import Renderer2D from "./Helper/Renderer.helper";
 
-import Rectangle from './lib/Rectangle.interface'
+import KeyboardController from "./controller/keyboard.controller";
 
-import Player from './gameObjects/Player.class'
-import Gun from './gameObjects/Gun.class'
+import Rectangle from "./lib/Rectangle.interface";
+import Player from "./entities/Player.class";
+import Gun from "./entities/Gun.class";
 
-import KeyboardController from './controller/keyboard.controller'
-
-import Renderer2D from './Helper/Renderer.helper'
-
-
-function createCanvasApp(){
-
-  const canvas: HTMLCanvasElement | null = document.querySelector<HTMLCanvasElement>("#canvas");
-  
-  if(!canvas) return new Error("canvas not defined!");
-
-  canvas.width = window.innerWidth/1.6;
-  canvas.height = window.innerHeight/1.8;
-
-  const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
-
-  if(!ctx) return new Error("context not defined!");
-
-  function setupGame(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D){
+export const setupGame = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D)=>{
 
     const renderer = new Renderer2D(ctx);
 
@@ -65,7 +48,7 @@ function createCanvasApp(){
   
       gun.magazine.forEach((bullet)=>{
         renderer.draw(bullet, "red");
-        bullet.y -= bullet.speed;
+        bullet.updatePosition();
       });
   
       requestAnimationFrame(createGameLoop);
@@ -76,11 +59,4 @@ function createCanvasApp(){
 
     createGameLoop();
 
-  }
-
-  setupGame(canvas, ctx);
-
 }
-
-createCanvasApp();
-

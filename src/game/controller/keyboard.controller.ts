@@ -1,5 +1,5 @@
-import Player from "../gameObjects/Player.class";
-import Gun from "../gameObjects/Gun.class";
+import Player from "../entities/Player.class";
+import Gun from "../entities/Gun.class";
 
 export default class KeyboardController{
     spacePressed: boolean;

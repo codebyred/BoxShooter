@@ -34,4 +34,9 @@ export default class Bullet implements Rectangle{
         this.damage = damage;
         this.speed = speed;
     }
+
+    updatePosition(){
+        this.y -= this.speed;
+    }
+
 }
