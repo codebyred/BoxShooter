@@ -4,12 +4,10 @@ export default class Gun{
     
     magazine!: Bullet[]
     timerTillNextBullet!: number
-    fireRate!: number
 
     constructor(){
         this.magazine = [];
         this.timerTillNextBullet = 0;
-        this.fireRate = 5;
     }
 
     fire(bullet: Bullet, delay: number){
@@ -22,15 +20,12 @@ export default class Gun{
 
             this.magazine.push(bullet);
             this.setTimer(delay);
-            
+
         }
     }
 
     isTimerSet(){
-        if(this.timerTillNextBullet <= 0){
-            return false;
-        }
-        return true;
+        return this.timerTillNextBullet <= 0? false: true;
     }
 
     setTimer(delay: number){

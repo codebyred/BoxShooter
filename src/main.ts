@@ -12,22 +12,18 @@ import Renderer2D from './Helper/Renderer.helper'
 
 function createCanvasApp(){
 
-  const canvas = document.querySelector<HTMLCanvasElement>("#canvas");
+  const canvas: HTMLCanvasElement | null = document.querySelector<HTMLCanvasElement>("#canvas");
   
   if(!canvas) return new Error("canvas not defined!");
 
   canvas.width = window.innerWidth/1.6;
   canvas.height = window.innerHeight/1.8;
 
-  const ctx = canvas.getContext("2d");
+  const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
 
   if(!ctx) return new Error("context not defined!");
 
-  function setupGame(){
-
-    if(!canvas) return new Error("canvas not defined!");
-
-    if(!ctx) return new Error("context not defined!");
+  function setupGame(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D){
 
     const renderer = new Renderer2D(ctx);
 
@@ -62,8 +58,6 @@ function createCanvasApp(){
     }
 
     function createGameLoop(){
-
-      if(!canvas) return new Error("canvas not defined!");
   
       renderer.draw(gameBackground, "#020617");
   
@@ -84,7 +78,7 @@ function createCanvasApp(){
 
   }
 
-  setupGame();
+  setupGame(canvas, ctx);
 
 }
 
