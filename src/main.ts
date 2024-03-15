@@ -1,8 +1,8 @@
 import './style.css'
 
-import Player from './GameObjects/Player.class'
+import Player from './gameObjects/Player.class'
 
-import Bullet from './GameObjects/Bullet.class'
+import Bullet from './gameObjects/Bullet.class'
 import BulletController from './controller/Bulltet.controller'
 
 import KeyboardController from './controller/keyboard.controller'
@@ -39,47 +39,49 @@ function createCanvasApp(){
       height: canvas.height
     }
   
-    const player = new Player(canvas.width/1.8, canvas.height/1.5);
-  
-    const bulletController = new BulletController(5, 10, 4);
-  
-    const keyboardController:KeyboardController = {
-      spacePressed: false,
-      upPressed: false,
-      downPressed: false,
-      leftPressed: false,
-      rightPressed: false
-    };
+    const player = new Player({x: canvas.width/1.8, y: canvas.height/1.5});
 
+    const bulletController = new BulletController({
+      bulletSpeed: 5,
+      bulletDamage: 10,
+      bulletDelay: 4
+    });
+  
     function setupGameControl(){
+
+      const keyboardController:KeyboardController = {
+        spacePressed: false,
+        upPressed: false,
+        downPressed: false,
+        leftPressed: false,
+        rightPressed: false
+      };
+
+      function setKeyAction(e:KeyboardEvent, value: boolean){
+        if(e.code === "ArrowUp"){    
+          return keyboardController.upPressed = value;
+        }
+  
+        if(e.code === "ArrowDown"){
+          return keyboardController.downPressed = value;
+        }
+  
+        if(e.code === "ArrowLeft"){
+          return keyboardController.leftPressed = value;
+        }
+  
+        if(e.code === "ArrowRight"){
+          return keyboardController.rightPressed = value;
+        }
+  
+        if(e.code === "Space"){
+          return keyboardController.spacePressed = value;
+        }
+      }
 
       document.addEventListener("keydown", (e: KeyboardEvent)=>{
   
-        function checkKeyCode(){
-  
-          if(e.code === "ArrowUp"){
-            keyboardController.upPressed = true;
-          }
-    
-          if(e.code === "ArrowDown"){
-            keyboardController.downPressed = true;
-          }
-    
-          if(e.code === "ArrowLeft"){
-            keyboardController.leftPressed = true;
-          }
-    
-          if(e.code === "ArrowRight"){
-            keyboardController.rightPressed = true;
-          }
-    
-          if(e.code === "Space"){
-            keyboardController.spacePressed = true;
-          }
-  
-        }
-  
-        function keyAction(){
+        function performKeyAction(){
   
           if(keyboardController.upPressed){
             player.moveUp();
@@ -107,33 +109,13 @@ function createCanvasApp(){
   
         }
   
-        checkKeyCode();
-        keyAction();
+        setKeyAction(e, true);
+        performKeyAction();
   
       });
   
       document.addEventListener("keyup", (e: KeyboardEvent)=>{
-  
-        if(e.code === "ArrowUp"){    
-          keyboardController.upPressed = false;
-        }
-  
-        if(e.code === "ArrowDown"){
-          keyboardController.downPressed = false;
-        }
-  
-        if(e.code === "ArrowLeft"){
-          keyboardController.leftPressed = false;
-        }
-  
-        if(e.code === "ArrowRight"){
-          keyboardController.rightPressed = false;
-        }
-  
-        if(e.code === "Space"){
-          keyboardController.spacePressed = false;
-        }
-  
+        setKeyAction(e, false);
       });
   
     }

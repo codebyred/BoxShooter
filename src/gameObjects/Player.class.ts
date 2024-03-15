@@ -7,7 +7,7 @@ export default class Player implements Rectangle{
     height!: number;
     speed!: number;
 
-    constructor(x: number, y: number){
+    constructor({x,y}:{x: number, y: number}){
         this.x = x;
         this.y = y;
         this.width = 50;

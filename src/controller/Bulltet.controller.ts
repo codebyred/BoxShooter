@@ -1,4 +1,4 @@
-import Bullet from "../GameObjects/Bullet.class";
+import Bullet from "../gameObjects/Bullet.class";
 export default class BulletController{
     
     bullets!: Bullet[];
@@ -6,8 +6,15 @@ export default class BulletController{
     bulletDamage: number;
     bulletDelay: number;
 
-    constructor(bulletSpeed: number, 
-        bulletDamage: number, bulletDelay: number
+    constructor({
+        bulletSpeed,
+        bulletDamage,
+        bulletDelay 
+    }:{
+        bulletSpeed: number, 
+        bulletDamage: number,
+        bulletDelay: number    
+    }
     ){
         this.bullets = [];
         this.bulletSpeed = bulletSpeed;
