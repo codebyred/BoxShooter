@@ -1,4 +1,4 @@
-import Rectangle from "../../../interface/Rectangle.interface";
+import Rectangle from "../lib/Rectangle.interface";
 
 export default class Player implements Rectangle{
     x: number;

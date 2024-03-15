@@ -1,4 +1,4 @@
-import Bullet from "../class/Bullet.class";
+import Bullet from "../GameObjects/Bullet.class";
 export default class BulletController{
     
     bullets!: Bullet[];
