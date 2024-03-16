@@ -2,7 +2,6 @@ import './style.css'
 
 import { setupGame } from './game/game';
 
-
 function createCanvasApp(){
 
   const canvas = document.querySelector<HTMLCanvasElement>("#canvas") as HTMLCanvasElement;
@@ -15,6 +14,7 @@ function createCanvasApp(){
   setupGame({
 
     ctx,
+
     settings:{
 
       gameBackground:{
@@ -27,6 +27,9 @@ function createCanvasApp(){
       player:{
         x: canvas.width/1.8,
         y: canvas.height/1.5,
+        height: 50,
+        width: 50,
+        speed: 4,
         color: "#7e5bef"
       },
       gun:{
@@ -35,10 +38,14 @@ function createCanvasApp(){
         fireSpeed: 4
       },
       bullet:{
+        height: 15,
+        width: 5,
         color: "red"
       }
 
-  }});
+    }
+
+  });
 
 }
 

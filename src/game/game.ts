@@ -18,6 +18,9 @@ type Settings = {
   player:{
     x: number,
     y: number,
+    height: number,
+    width: number,
+    speed: number,
     color: string
   },
   gun:{
@@ -26,14 +29,24 @@ type Settings = {
     fireSpeed: number
   },
   bullet:{
+    height: number,
+    width: number,
     color: string
   }
 
 }
 
-export const setupGame = ({ctx, settings}:{
-  
-  ctx: CanvasRenderingContext2D, settings: Settings})=>{
+export const setupGame = ({
+
+    ctx,
+    settings
+
+  }:{
+
+    ctx: CanvasRenderingContext2D, 
+    settings: Settings
+
+  })=>{
 
     const renderer = new Renderer2D(ctx);
 
@@ -44,12 +57,20 @@ export const setupGame = ({ctx, settings}:{
       height: settings.gameBackground.height
     }
   
-    const player = new Player({x: settings.player.x, y: settings.player.y});
+    const player = new Player({
+      x: settings.player.x, 
+      y: settings.player.y,
+      height: settings.player.height,
+      width: settings.player.width,
+      speed: settings.player.speed
+    });
 
     const gun = new Gun({
       damage: settings.gun.damage,
       fireSpeed: settings.gun.fireSpeed,
-      fireDelay: settings.gun.fireDelay
+      fireDelay: settings.gun.fireDelay,
+      bulletHeight: settings.bullet.height,
+      bulletWidth: settings.bullet.width
     });
   
     function setupGameControl(){
@@ -58,30 +79,44 @@ export const setupGame = ({ctx, settings}:{
 
       document.addEventListener("keydown", (e: KeyboardEvent)=>{     
   
-        gameController.updateKeyPressedStatus(e.code, true);
+        gameController.updateKeyPressedStatus({keyCode:e.code, status:true});
         gameController.performKeyAction();
   
       });
   
       document.addEventListener("keyup", (e: KeyboardEvent)=>{
 
-        gameController.updateKeyPressedStatus(e.code, false);
+        gameController.updateKeyPressedStatus({keyCode:e.code, status:false});
 
       });
   
     }
 
     function createGameLoop(){
+
+      function draw(){
+
+        renderer.draw(gameBackground, settings.gameBackground.color);
   
-      renderer.draw(gameBackground, settings.gameBackground.color);
-  
-      renderer.draw(player, settings.player.color);
-  
-      gun.magazine.forEach((bullet)=>{
-        renderer.draw(bullet, settings.bullet.color);
-        bullet.updatePosition();
-      });
-  
+        renderer.draw(player, settings.player.color);
+
+        gun.magazine.forEach((bullet)=>{
+          renderer.draw(bullet, settings.bullet.color);
+        });
+
+      }
+
+      function update(){
+
+        gun.magazine.forEach((bullet)=>{
+          bullet.moveUp();
+        });
+
+      }
+      
+      draw();
+      update();
+      
       requestAnimationFrame(createGameLoop);
   
     }

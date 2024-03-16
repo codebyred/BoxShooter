@@ -1,6 +1,11 @@
 import Player from "../entities/Player.class";
 import Gun from "../entities/Gun.class";
 
+type GameEntities = {
+  player: Player,
+  gun: Gun
+}
+
 export default class GameController{
     spacePressed: boolean;
     upPressed: boolean;
@@ -10,7 +15,7 @@ export default class GameController{
     player: Player;
     gun: Gun;
 
-    constructor({player, gun}:{player: Player, gun: Gun}){
+    constructor({player, gun}:GameEntities){
       this.player = player;
       this.gun = gun;
       this.upPressed = false;
@@ -20,7 +25,12 @@ export default class GameController{
       this.spacePressed = false;
     }
 
-    updateKeyPressedStatus(keyCode: string, status: boolean){
+    updateKeyPressedStatus({
+      keyCode, 
+      status}:{
+      keyCode: string, 
+      status: boolean
+    }){
         
         if(keyCode === "ArrowUp"){    
           return this.upPressed = status;

@@ -9,30 +9,32 @@ export default class Bullet implements Rectangle{
     damage: number;
     speed: number;
 
-    constructor(
-        {
-            x,
-            y,
-            damage,
-            speed
-            
-        }:{
-            x: number, 
-            y: number,
- 
-            damage: number, 
-            speed: number
-        }
-    ){
+
+    constructor({
+        x,
+        y,
+        height,
+        width,
+        damage,
+        speed,       
+    }:{
+        x: number, 
+        y: number,
+        height: number,
+        width: number,
+        damage: number, 
+        speed: number,
+
+    }){
         this.x = x;
         this.y = y;
-        this.width = 5;
-        this.height = 15;
+        this.width = width
+        this.height = height;
         this.damage = damage;
         this.speed = speed;
     }
 
-    updatePosition(){
+    moveUp(){
         this.y -= this.speed;
     }
 

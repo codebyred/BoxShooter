@@ -4,20 +4,33 @@ export default class Gun{
     
     magazine!: Bullet[]
     timerTillNextBullet!: number
-    fireDelay!: number
-    damage!: number
-    fireSpeed!: number
+    fireDelay: number
+    damage: number
+    fireSpeed: number
+    bulletHeight: number;
+    bulletWidth: number;
     
-    constructor({damage, fireSpeed, fireDelay}:{
+    constructor({
+        damage, 
+        fireSpeed, 
+        fireDelay,
+        bulletHeight,
+        bulletWidth
+        
+    }:{
         damage: number,
         fireSpeed: number,
-        fireDelay: number
+        fireDelay: number,
+        bulletHeight: number,
+        bulletWidth: number
     }){
         this.magazine = [];
         this.timerTillNextBullet = 0;
         this.fireDelay = fireDelay;
         this.fireSpeed = fireSpeed;
         this.damage = damage;
+        this.bulletHeight = bulletHeight;
+        this.bulletWidth = bulletWidth;
     }
 
     fire({
@@ -32,20 +45,22 @@ export default class Gun{
 
         if(this.isTimerSet()){
 
-            this.countDownTimer();
-
-        }else{
-
-            this.magazine.push(new Bullet({
-                x: bulletPositionX,
-                y: bulletPostionY,
-                damage: this.damage,
-                speed: this.fireSpeed
-            }));
-
-            this.setTimer();
+            return this.countDownTimer();
 
         }
+
+        this.magazine.push(new Bullet({
+            x: bulletPositionX,
+            y: bulletPostionY,
+            height: this.bulletHeight,
+            width: this.bulletWidth,
+            damage: this.damage,
+            speed: this.fireSpeed,
+        }));
+
+        this.setTimer();
+
+    
     }
 
     isTimerSet(){

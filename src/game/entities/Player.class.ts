@@ -9,12 +9,24 @@ export default class Player implements Rectangle{
     height!: number;
     speed!: number;
 
-    constructor({x,y}:{x: number, y: number}){
+    constructor({
+        x,
+        y,
+        height,
+        width,
+        speed
+    }:{
+        x: number, 
+        y: number,
+        height: number,
+        width: number,
+        speed: number
+    }){
         this.x = x;
         this.y = y;
-        this.width = 50;
-        this.height = 50;  
-        this.speed = 4;   
+        this.width = width;
+        this.height = height;  
+        this.speed = speed;   
     }
 
     moveUp(){
