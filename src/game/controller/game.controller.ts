@@ -1,19 +1,23 @@
 import Player from "../entities/Player.class";
 import Gun from "../entities/Gun.class";
 
-export default class KeyboardController{
+export default class GameController{
     spacePressed: boolean;
     upPressed: boolean;
     downPressed: boolean;
     leftPressed: boolean;
     rightPressed: boolean;
+    player: Player;
+    gun: Gun;
 
-    constructor(){
-        this.upPressed = false;
-        this.downPressed = false;
-        this.leftPressed = false;
-        this.rightPressed = false;
-        this.spacePressed = false;
+    constructor({player, gun}:{player: Player, gun: Gun}){
+      this.player = player;
+      this.gun = gun;
+      this.upPressed = false;
+      this.downPressed = false;
+      this.leftPressed = false;
+      this.rightPressed = false;
+      this.spacePressed = false;
     }
 
     updateKeyPressedStatus(keyCode: string, status: boolean){
@@ -40,26 +44,26 @@ export default class KeyboardController{
 
     }
 
-    performKeyAction(player: Player, gun: Gun){
+    performKeyAction(){
   
         if(this.upPressed){
-          player.moveUp();
+          this.player.moveUp();
         }
 
         if(this.downPressed){
-          player.moveDown();
+          this.player.moveDown();
         }
 
         if(this.leftPressed){
-          player.moveLeft();
+          this.player.moveLeft();
         }
 
         if(this.rightPressed){
-          player.moveRight();
+          this.player.moveRight();
         }
 
         if(this.spacePressed){
-          player.shoot(gun);
+          this.player.shoot(this.gun);
         }
 
     }

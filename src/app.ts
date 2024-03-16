@@ -5,18 +5,40 @@ import { setupGame } from './game/game';
 
 function createCanvasApp(){
 
-  const canvas: HTMLCanvasElement | null = document.querySelector<HTMLCanvasElement>("#canvas");
-  
-  if(!canvas) return new Error("canvas not defined!");
+  const canvas = document.querySelector<HTMLCanvasElement>("#canvas") as HTMLCanvasElement;
 
   canvas.width = window.innerWidth/1.6;
   canvas.height = window.innerHeight/1.8;
 
-  const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-  if(!ctx) return new Error("context not defined!");
+  setupGame({
 
-  setupGame(canvas, ctx);
+    ctx,
+    settings:{
+
+      gameBackground:{
+        x:0,
+        y:0,
+        width: canvas.width,
+        height: canvas.height,
+        color: "#020617"
+      },
+      player:{
+        x: canvas.width/1.8,
+        y: canvas.height/1.5,
+        color: "#7e5bef"
+      },
+      gun:{
+        damage: 1,
+        fireDelay: 5,
+        fireSpeed: 4
+      },
+      bullet:{
+        color: "red"
+      }
+
+  }});
 
 }
 

@@ -13,24 +13,21 @@ export default class Bullet implements Rectangle{
         {
             x,
             y,
-            width,
-            height,
             damage,
             speed
             
         }:{
             x: number, 
             y: number,
-            width: number, 
-            height: number, 
+ 
             damage: number, 
             speed: number
         }
     ){
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.width = 5;
+        this.height = 15;
         this.damage = damage;
         this.speed = speed;
     }
@@ -40,3 +37,4 @@ export default class Bullet implements Rectangle{
     }
 
 }
+

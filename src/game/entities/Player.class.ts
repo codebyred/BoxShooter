@@ -1,5 +1,5 @@
 import Rectangle from "../lib/Rectangle.interface";
-import Bullet from "./Bullet.class";
+
 import Gun from "./Gun.class";
 
 export default class Player implements Rectangle{
@@ -34,26 +34,10 @@ export default class Player implements Rectangle{
     }
 
     shoot(gun: Gun){
-
-        const delay = 7;
-        const speed = 5;
-        const damage = 1;
-        const bulletX = this.x + (this.width/2);
-        const bulletY = this.y;
-        const bulletHeight = 15;
-        const bulletWidth = 5;
-
-        gun.fire(new Bullet(
-            {
-                x: bulletX,
-                y: bulletY,
-                height: bulletHeight,
-                width: bulletWidth,
-                speed: speed,
-                damage: damage
-            }),
-            delay
-        );
+        gun.fire({
+            bulletPositionX: this.x + (this.width/2),
+            bulletPostionY: this.y,
+        });
     }
 
     
