@@ -1,13 +1,13 @@
 import Rectangle from "../lib/Rectangle.interface";
 
-import Gun from "./Gun.class";
+import Gun from "./Gun.entity";
 
 export default class Player implements Rectangle{
     x: number;
     y: number;
-    width!: number;
-    height!: number;
-    speed!: number;
+    width: number;
+    height: number;
+    speed: number;
 
     constructor({
         x,

@@ -29,19 +29,20 @@ function createCanvasApp(){
         y: canvas.height/1.5,
         height: 50,
         width: 50,
-        speed: 4,
+        speed: 10,
         color: "#7e5bef"
       },
       gun:{
-        damage: 1,
-        fireDelay: 5,
+        bullet:{
+          damage: 5,
+          height: 15,
+          width: 5,
+          color: "red"
+        },
+        
+        fireDelay: 2,
         fireSpeed: 4
       },
-      bullet:{
-        height: 15,
-        width: 5,
-        color: "red"
-      }
 
     }
 

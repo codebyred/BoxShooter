@@ -1,36 +1,40 @@
-import Bullet from "./Bullet.class";
+import Bullet from "./Bullet.entity";
 
 export default class Gun{
     
     magazine!: Bullet[]
     timerTillNextBullet!: number
     fireDelay: number
-    damage: number
+    bulletDamage: number
     fireSpeed: number
     bulletHeight: number;
     bulletWidth: number;
     
     constructor({
-        damage, 
+        bulletDamage, 
         fireSpeed, 
         fireDelay,
         bulletHeight,
         bulletWidth
         
     }:{
-        damage: number,
+        bulletDamage: number,
         fireSpeed: number,
         fireDelay: number,
         bulletHeight: number,
         bulletWidth: number
     }){
+
         this.magazine = [];
         this.timerTillNextBullet = 0;
+
         this.fireDelay = fireDelay;
         this.fireSpeed = fireSpeed;
-        this.damage = damage;
+
+        this.bulletDamage = bulletDamage;
         this.bulletHeight = bulletHeight;
         this.bulletWidth = bulletWidth;
+
     }
 
     fire({
@@ -43,9 +47,9 @@ export default class Gun{
         }
     ){
 
-        if(this.isTimerSet()){
+        if(this.isDelayTimerSet()){
 
-            return this.countDownTimer();
+            return this.countDownDelayTimer();
 
         }
 
@@ -54,24 +58,25 @@ export default class Gun{
             y: bulletPostionY,
             height: this.bulletHeight,
             width: this.bulletWidth,
-            damage: this.damage,
+            damage: this.bulletDamage,
             speed: this.fireSpeed,
         }));
 
-        this.setTimer();
+        this.setDelayTimer();
 
     
     }
 
-    isTimerSet(){
+    isDelayTimerSet(){
         return this.timerTillNextBullet <= 0? false: true;
     }
 
-    setTimer(){
+    setDelayTimer(){
         this.timerTillNextBullet = this.fireDelay;
     }
 
-    countDownTimer(){
+    countDownDelayTimer(){
         this.timerTillNextBullet--;
     }
+
 }

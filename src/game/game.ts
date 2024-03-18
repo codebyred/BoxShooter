@@ -3,8 +3,9 @@ import Renderer2D from "./Helper/Renderer.helper";
 import GameController from "./controller/game.controller";
 
 import Rectangle from "./lib/Rectangle.interface";
-import Player from "./entities/Player.class";
-import Gun from "./entities/Gun.class";
+import Player from "./entities/Player.entity";
+import Gun from "./entities/Gun.entity";
+import Enemy from "./entities/Enemy.entity";
 
 type Settings = {
 
@@ -24,15 +25,16 @@ type Settings = {
     color: string
   },
   gun:{
-    damage: number,
+    bullet:{
+      damage: number,
+      height: number,
+      width: number,
+      color: string
+    }
+    
     fireDelay: number,
     fireSpeed: number
   },
-  bullet:{
-    height: number,
-    width: number,
-    color: string
-  }
 
 }
 
@@ -66,12 +68,27 @@ export const setupGame = ({
     });
 
     const gun = new Gun({
-      damage: settings.gun.damage,
+      bulletDamage: settings.gun.bullet.damage,
       fireSpeed: settings.gun.fireSpeed,
       fireDelay: settings.gun.fireDelay,
-      bulletHeight: settings.bullet.height,
-      bulletWidth: settings.bullet.width
+      bulletHeight: settings.gun.bullet.height,
+      bulletWidth: settings.gun.bullet.width
     });
+
+    const enemies :Enemy[] = [
+
+      new Enemy({x: 50, y: 20, height: 50, width: 50, health: 80, color:"yellow"}),
+      new Enemy({x: 150, y: 20, height: 50, width: 50, health: 100, color:"yellow"}),
+      new Enemy({x: 250, y: 20, height: 50, width: 50, health: 70, color:"yellow"}),
+      new Enemy({x: 350, y: 20, height: 50, width: 50, health: 80, color:"yellow"}),
+      new Enemy({x: 450, y: 20, height: 50, width: 50, health: 90, color:"yellow"}),
+      new Enemy({x: 50, y: 100, height: 50, width: 50, health: 30, color:"yellow"}),
+      new Enemy({x: 150, y: 100, height: 50, width: 50, health: 50, color:"yellow"}),
+      new Enemy({x: 250, y: 100, height: 50, width: 50, health: 120, color:"yellow"}),
+      new Enemy({x: 350, y: 100, height: 50, width: 50, health: 70, color:"yellow"}),
+      new Enemy({x: 450, y: 100, height: 50, width: 50, health: 80, color:"yellow"}),
+
+    ];
   
     function setupGameControl(){
 
@@ -101,15 +118,46 @@ export const setupGame = ({
         renderer.draw(player, settings.player.color);
 
         gun.magazine.forEach((bullet)=>{
-          renderer.draw(bullet, settings.bullet.color);
+          renderer.draw(bullet, settings.gun.bullet.color);
         });
+
+        enemies.forEach((enemy)=>{
+          renderer.draw(enemy, enemy.color);
+        })
 
       }
 
       function update(){
 
-        gun.magazine.forEach((bullet)=>{
+        gun.magazine.forEach((bullet, bulletIndex)=>{ 
+
+          if(bullet.isOffScreen()){
+            gun.magazine.splice(bulletIndex, 1);
+          }
+
           bullet.moveUp();
+
+        });
+
+        enemies.forEach((enemy, enemyIndex)=>{
+
+          gun.magazine.some((bullet, bulletIndex)=>{
+
+            if(bullet.collideWith(enemy)){
+
+              gun.magazine.splice(bulletIndex, 1);
+              enemy.decreaseHealth(bullet.damage);
+
+            }
+
+          });
+
+          if(enemy.hasZeroHealth()){
+
+            enemies.splice(enemyIndex, 1);
+
+          }
+
         });
 
       }

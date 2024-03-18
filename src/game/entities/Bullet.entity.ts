@@ -38,5 +38,21 @@ export default class Bullet implements Rectangle{
         this.y -= this.speed;
     }
 
+    isOffScreen(){
+        return this.y <= - this.height;
+    }
+
+    collideWith(sprite: Rectangle){
+
+        if(this.x < sprite.x + sprite.width
+        && this.x + this.width > sprite.x
+        && this.y < sprite.y + sprite.height
+        && this.y + this.height > sprite.y)
+            return true;
+
+        return false;
+        
+    }
+
 }
 
